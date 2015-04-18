@@ -1,0 +1,10 @@
+.DS_Store
+bower_components/*
+node_modules/*
+*.log
+public/scripts/.module-cache/*
+bin/www
+nohup*
+public/build/*
+/public/build/app.js
+/public/build/style.css

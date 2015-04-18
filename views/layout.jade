@@ -1,0 +1,44 @@
+doctype html
+html(ng-app='chanakyaApp')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='description', content='Find cheapest ride for yourself')
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
+    
+    title=title
+
+    script.
+        function tsro(n,v){Object.defineProperty(window,n,{value:v,enumerable:false,writable:false,configurable:false})}tsro('CDN_IMAGE_PREFIX','#{url.cdnImagePrefix}');tsro('GOOGLE_API','#{url.gMapsAPI}');tsro('FIREBASE_APP_URL','#{url.firebase.app}');tsro('FIREBASE_RATES_URL','#{url.firebase.rates}');
+
+    if isProd
+        script.
+            window.console = {};
+            console.log = console.debug = console.error = function(){};
+
+    link(rel="shortcut icon", href=url.cdnImagePrefix + "/images/favicon.ico", type="image/x-icon")
+    link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css')
+    if isProd
+        link(rel='stylesheet', href='/build/style.css')
+    else
+        link(rel='stylesheet', href='/stylesheets/style.css')
+
+    script(src='https://maps.googleapis.com/maps/api/js?libraries=places&key=' + url.gMapsAPI)
+    script(src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js')
+    script(src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js")
+    script(src='//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular.min.js')
+    script(src='//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular-sanitize.min.js')
+    script(src='//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular-animate.min.js')
+    script(src='//cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.js')
+    script(src='//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.13/angular-ui-router.min.js')
+    script(src='//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.1/ui-bootstrap-tpls.min.js')
+    script(src='//cdn.firebase.com/js/client/2.2.2/firebase.js')
+    script(src='//cdn.firebase.com/libs/angularfire/1.0.0/angularfire.min.js')
+    script(src='//cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/core-min.js')
+    script(src='//cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/cipher-core-min.js')
+    script(src='//cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/sha1-min.js')
+    script(src='//cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/aes-min.js')
+    script(src='//cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/enc-base64-min.js')
+    
+  body
+    block content

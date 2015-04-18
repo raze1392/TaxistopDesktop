@@ -1,0 +1,28 @@
+div#login-background
+div#login(
+  ng-controller="ChanakyaLoginCtrl"
+  ng-class="{'social': false && social}" 
+  ng-hide="!showLogin ? true : !loaded || actionDisabled"
+)
+  div
+    i#page-spinner.fa.fa-cog.fa-spin(ng-hide="!showLogin ? false : loaded && !actionDisabled")
+  img(src=cdnImagePrefix + '/images/taxistop.png' style='height:60px')
+  h2 TaxiStop
+  form(ng-show="showLogin")
+    //- label(for="username") username
+    //- input(type="text" name="username" class="placeholder" placeholder="me@taxistop.in" ng-model="email")
+    //- label(for="password") password
+    //- input(type="password" name="password" class="placeholder" placeholder="password" ng-show="!forgot" ng-model="password")
+    //- input(type="submit" value="{{forgot ? 'Reset' : (login ? 'Log In' : 'Register')}}" ng-click="loginSubmit()" ng-disabled='actionDisabled')
+    //- div(style="margin-top:10px")
+      a(style="float:right" ng-click='forgot=!forgot;login=false') Forgot Password?
+      a(style="float:left" ng-click='login=!login;forgot=false') {{ login ? 'Register' : 'Log In'}}
+    div.social-btn(ng-show='social' style="margin-top:40px")
+      a.btn.btn-block.btn-social.btn-google-plus(ng-click="loginSubmit('google')" ng-show="loaded")
+        i.fa.fa-google-plus 
+        span Sign in with Google
+      a.btn.btn-block.btn-social.btn-facebook(ng-click="loginSubmit('facebook')" ng-show="loaded")
+        i.fa.fa-facebook 
+        span Sign in with facebook
+  div.alert.alert-danger(role="alert" ng-hide="!errorMsg")
+    span {{errorMsg}}

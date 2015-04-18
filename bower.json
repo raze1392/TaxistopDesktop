@@ -1,0 +1,23 @@
+{
+  "name": "taxistop",
+  "version": "0.0.1",
+  "homepage": "http://taxistop.in",
+  "authors": [
+    "Abhinav Kushwaha <akush2007@gmail.com>",
+    "Shivam Shah <dev.shivamshah@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.1"
+  },
+  "devDependencies": {
+    "font-awesome": "~4.3.0"
+  }
+}
