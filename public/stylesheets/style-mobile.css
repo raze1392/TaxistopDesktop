@@ -1,0 +1,105 @@
+@media screen and (max-width: 768px) {
+    #map-canvas {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        top: 75px;
+    }
+    #title {
+        top: 95px;
+        right: 24px;
+        bottom: auto;
+    }
+    #title img {
+        height: 40px;
+    }
+    .navbar-fixed-top {
+        top: 0;
+        left: 0;
+        width: auto;
+        right: 0;
+    }
+    #action-icons {
+        top: 100px;
+        right: 60px;
+        bottom: auto;
+    }
+    #gps {
+        bottom: auto;
+        width: 32px;
+        right: 11px;
+        top: 85px;
+        padding: 3px 6px 2px;
+        height: 32px;
+        font-size: 21px;
+    }
+    #refresh {
+        bottom: auto;
+        width: 32px;
+        right: 11px;
+        top: 130px;
+        padding: 3px 6px 2px;
+        height: 32px;
+        font-size: 21px;
+    }
+    #gps img {
+        height: 20px;
+    }
+    #content {
+        width: auto;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        -webkit-box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.5);
+        -moz-box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.5);
+        box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.5);
+    }
+    #cabdetails {
+        width: auto;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        position: absolute;
+    }
+    #details {
+        max-height: 215px;
+        margin-bottom: -5px;
+        padding: 0;
+        height: auto;
+        max-height: 215px;
+        border-top: 1px solid #aaa;
+        -webkit-box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.5);
+        -moz-box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.5);
+        box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.5);
+    }
+    #services {
+        border-top: 1px solid #aaa;
+        -webkit-box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.5);
+        -moz-box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.5);
+        box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.5);
+    }
+    .full-page {
+        top: 0;
+        bottom: 55px;
+        left: 0;
+        right: 0;
+        position: fixed;
+        bottom: 70px;
+        display: flex;
+}
+    }
+    .full-page.show-inputs {
+        top: 75px;
+        border-top: 1px solid #aaa;
+    }
+    .mask-image {
+        display: none !important;
+    }
+    .mask {
+        padding-top: 0 !important;
+    }
+}

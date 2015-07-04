@@ -164,11 +164,12 @@
                 //chanakya.Map._Details.Destination.container.value = "Dropped pin location";
             });
 
-            //Creating SourceLocationChanged event
+            //Creating DestinationLocationChanged event
+            // #### Check google latitude|longitude key - A|F
             chanakya.Map._Details.destinationLocationChangedEvent = new CustomEvent('destinationLocationChanged', {
                 'detail': {
-                    'lat': chanakya.Map.getDestination().location.k,
-                    'lng': chanakya.Map.getDestination().location.D
+                    'lat': chanakya.Map.getDestination().location.A,
+                    'lng': chanakya.Map.getDestination().location.F
                 }
             });
             chanakya.Map._Details.Destination.container.dispatchEvent(chanakya.Map._Details.destinationLocationChangedEvent);
@@ -312,16 +313,18 @@
             chanakya.Map._Details.Destination.city = city;
         };
 
+        // #### Check google latitude key - A
         var getSourceLatitude = function() {
             if (chanakya.Map.existsSource()) {
-                return chanakya.Map.getSource().location.k;
+                return chanakya.Map.getSource().location.A;
             }
             return null;
         };
 
+        // #### Check google longitude key - F
         var getSourceLongitude = function() {
             if (chanakya.Map.existsSource()) {
-                return chanakya.Map.getSource().location.D;
+                return chanakya.Map.getSource().location.F;
             }
             return null;
         };

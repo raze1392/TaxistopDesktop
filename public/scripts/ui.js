@@ -43,6 +43,8 @@
 
     app.controller('ChanakyaMainCtrl', ['$scope', '$rootScope', '$http', '$interval', '$location', "$firebaseAuth",
         function($scope, $rootScope, $http, $interval, $location, $firebaseAuth) {
+            var URL_HOST = "http://52.10.230.186/";
+
             $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
                 if (toState.data && toState.data.selectedTab)
                     $scope.serviceRadio = toState.data.selectedTab;
@@ -324,7 +326,7 @@
             };
 
             $scope.getCabs = function(service, silent) {
-                $http.get('cabs/all?lat=' + $scope.source.lat + '&lng=' + $scope.source.lng).success(function(data) {
+                $http.get(URL_HOST + 'cabs/now/all?lat=' + $scope.source.lat + '&lng=' + $scope.source.lng).success(function(data) {
                     processData(service, data, silent);
                 });
             };
@@ -502,7 +504,7 @@
                         UberBLACK: 1
                     }
                 };
-                $http.get('cabs/uber/cost?srcLat=' + $scope.source.lat + '&srcLng=' + $scope.source.lng + '&destLat=' + $scope.destination.lat + '&destLng=' + $scope.destination.lng).success(function(data) {
+                $http.get(URL_HOST + 'cabs/uber/cost?srcLat=' + $scope.source.lat + '&srcLng=' + $scope.source.lng + '&destLat=' + $scope.destination.lat + '&destLng=' + $scope.destination.lng).success(function(data) {
                     for (var item in data.prices) {
                         if (data.prices[item].low_estimate == data.prices[item].high_estimate)
                             $scope.uberCost[data.prices[item].name] = data.prices[item].low_estimate;

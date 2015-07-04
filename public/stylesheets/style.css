@@ -5,12 +5,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 }
 body {
     line-height: 1;
-    background-color: #323B55;
-    background-image: -webkit-linear-gradient(bottom, #323B55 0%, #424F71 100%);
-    background-image: -moz-linear-gradient(bottom, #323B55 0%, #424F71 100%);
-    background-image: -o-linear-gradient(bottom, #323B55 0%, #424F71 100%);
-    background-image: -ms-linear-gradient(bottom, #323B55 0%, #424F71 100%);
-    background-image: linear-gradient(bottom, #323B55 0%, #424F71 100%);
 }
 ol, ul {
     list-style: none;
@@ -158,7 +152,7 @@ table {
 }
 /* main css */
 
-html, body, #map-canvas {
+html, body {
     height: 100%;
     margin: 0;
     padding: 0;
@@ -332,18 +326,7 @@ table {
     border-radius: 50px;
 }
 .full-page {
-    padding: 5px;
-    top: 10px;
-    position: fixed;
-    bottom: 70px;
-    left: 10px;
-    right: auto;
     background-color: #f7f7f7;
-    width: 330px;
-    display: flex;
-    -webkit-box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.5);
-    -moz-box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.5);
-    box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.5);
 }
 .full-page.show-inputs {
     top: 90px;
@@ -438,11 +421,6 @@ table {
     font-size: 0.9em;
 }
 #map-canvas {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
     z-index: 0;
 }
 #map-canvas .centerMarker {
@@ -454,7 +432,7 @@ table {
     
     top: 50%;
     left: 50%;
-    z-index: 1;
+    z-index: 2;
     /*fix offset when needed*/
     
     margin-left: -10px;
@@ -467,16 +445,9 @@ table {
     cursor: pointer;
 }
 #content {
-    position: absolute;
-    width: 330px;
-    top: 10px;
-    left: 10px;
-    z-index: 1;
+    z-index: 3;
     background: white;
     padding: 5px;
-    -webkit-box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.5);
-    -moz-box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.5);
-    box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.5);
 }
 .input-action {
     position: absolute;
@@ -513,20 +484,13 @@ table {
     outline-width: 0;
 }
 #cabdetails {
-    position: absolute;
-    width: 330px;
-    bottom: 10px;
-    left: 10px;
-    z-index: 1;
+    z-index: 3;
     background: transparent;
 }
 #details {
     background: white;
     max-height: 600px;
     padding: 2px 0;
-    -webkit-box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.5);
-    -moz-box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.5);
-    box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.5);
     overflow-y: auto;
 }
 #details .cab-details {
@@ -593,9 +557,6 @@ table {
 }
 #services {
     padding: 10px;
-    -webkit-box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.5);
-    -moz-box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.5);
-    box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.5);
     z-index: 9999;
     background-color: #EAE8E7;
 }
@@ -872,92 +833,4 @@ hr {
 
 .pad {
     padding: 25px;
-}
-@media screen and (max-width: 480px) {
-    #map-canvas {
-        position: fixed;
-        top: 75px;
-    }
-    #title {
-        top: 95px;
-        right: 24px;
-        bottom: auto;
-    }
-    #title img {
-        height: 40px;
-    }
-    .navbar-fixed-top {
-        top: 0;
-        left: 0;
-        width: auto;
-        right: 0;
-    }
-    #action-icons {
-        top: 100px;
-        right: 60px;
-        bottom: auto;
-    }
-    #gps {
-        bottom: auto;
-        width: 32px;
-        right: 11px;
-        top: 85px;
-        padding: 3px 6px 2px;
-        height: 32px;
-        font-size: 21px;
-    }
-    #refresh {
-        bottom: auto;
-        width: 32px;
-        right: 11px;
-        top: 130px;
-        padding: 3px 6px 2px;
-        height: 32px;
-        font-size: 21px;
-    }
-    #gps img {
-        height: 20px;
-    }
-    #content {
-        width: auto;
-        top: 0;
-        left: 0;
-        right: 0;
-    }
-    #cabdetails {
-        width: auto;
-        top: auto;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 1;
-    }
-    #details {
-        max-height: 215px;
-        margin-bottom: -5px;
-        padding: 0;
-        height: auto;
-        max-height: 215px;
-        border-top: 1px solid #aaa;
-    }
-    #services {
-        border-top: 1px solid #aaa;
-    }
-    .full-page {
-        top: 0;
-        bottom: 55px;
-        left: 0;
-        right: 0;
-        width: auto;
-    }
-    .full-page.show-inputs {
-        top: 75px;
-        border-top: 1px solid #aaa;
-    }
-    .mask-image {
-        display: none !important;
-    }
-    .mask {
-        padding-top: 0 !important;
-    }
 }
