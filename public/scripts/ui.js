@@ -41,105 +41,8 @@
             });
     }]);
 
-    app.controller('ChanakyaLoginCtrl', ['$scope', '$rootScope', '$http', '$timeout', '$location', "$firebaseAuth",
-        function($scope, $rootScope, $http, $timeout, $location, $firebaseAuth) {
-            $scope.init = function() {
-                $scope.showLogin = false;
-                $scope.login = true;
-                $scope.forgot = false;
-                $scope.authObj = $firebaseAuth(utils.fire);
-                $scope.loaded = true;
-                $scope.email = "";
-                $scope.password = "";
-                if ($scope.authObj.$getAuth()) {
-                    console.log("Already logged in", $scope.authObj.$getAuth().uid);
-                    $location.path('/app');
-                }
-                $scope.social = true;
-
-                $scope.authObj.$onAuth(function(authData) {
-                    if (authData) {
-                        user.saveAuth(authData, $location);
-                    } else {
-                        if (!utils.cookie.get('loginClicked')) {
-                            $scope.showLogin = true;
-                        }
-                    }
-                });
-            };
-
-            $scope.loginSubmit = function(provider) {
-                $scope.errorMsg = undefined;
-                $scope.actionDisabled = true;
-                if (provider === 'google' || provider === 'facebook') {
-                    login({
-                        provider: provider
-                    }, $location, showError);
-                } else if ($scope.forgot) {
-                    resetPassword($scope.email);
-                } else {
-                    if (!utils.validateEmail($scope.email)) {
-                        showError("Please enter valid email id.");
-                    } else if ($scope.password.trim().length < 6) {
-                        if ($scope.login)
-                            showError("Please enter valid password.");
-                        else
-                            showError("Password must me at least 6 characters long.");
-                    } else if ($scope.login) {
-                        login({
-                            provider: 'password',
-                            email: $scope.email,
-                            password: $scope.password
-                        }, $location, showError);
-                    } else {
-                        register({
-                            provider: 'password',
-                            email: $scope.email,
-                            password: $scope.password
-                        }, $location, showError);
-                    }
-                }
-            };
-
-            function resetPassword(email) {
-                user.resetPassword(email, handleResetPasswordSuccess, showError);
-            }
-
-            function handleResetPasswordSuccess() {
-                $scope.actionDisabled = false;
-                console.log("Password reset email sent successfully!");
-            }
-
-            function login(options) {
-                user.login(options, $location, showError);
-            }
-
-            function register(options) {
-                user.register(options, showError);
-            }
-
-            function showError(err) {
-                console.log('called', err);
-                $scope.showLogin = true;
-                $scope.actionDisabled = false;
-                $scope.errorMsg = err;
-            }
-
-            $scope.init();
-        }
-    ]);
-
     app.controller('ChanakyaMainCtrl', ['$scope', '$rootScope', '$http', '$interval', '$location', "$firebaseAuth",
         function($scope, $rootScope, $http, $interval, $location, $firebaseAuth) {
-            if (!utils.fire.getAuth()) {
-                $location.path('/login');
-            } else {
-                var auth = utils.fire.getAuth();
-                if (auth.expires < ((new Date()).getTime() / 1000)) {
-                    user.logout($location);
-                }
-            }
-
             $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
                 if (toState.data && toState.data.selectedTab)
                     $scope.serviceRadio = toState.data.selectedTab;
@@ -431,34 +334,25 @@
             };
 
             $scope.init = function() {
-                $scope.authObj = $firebaseAuth(utils.fire);
                 $scope.loaded = true;
-                $scope.loggedIn = utils.fire.getAuth() ? true : false;
                 $scope.isMobile = utils.mobilecheck();
                 $scope.isAndroidApp = utils.androidAppCheck();
-                if (!user.info()) {
-                    user.setUserInfo(utils.cookie.get('user'));
-                } else {
-                    $scope.userInfo = user.info();
-                }
+
                 if ($scope.isMobile && !$scope.isAndroidApp) {
                     $scope.mapHeight = document.body.clientHeight - (78 + 70);
                     map_container.style.height = $scope.mapHeight + "px";
                 } else if ($scope.isMobile && $scope.isAndroidApp) {
                     $scope.mapHeight = screen.height - (78 + 70);
                     map_container.style.height = $scope.mapHeight + "px";
+                } else {
+                    map_container.style.position = "absolute";
+                    $scope.mapHeight = document.body.clientHeight;
+                    map_container.style.height = $scope.mapHeight + "px";
                 }
+
                 $interval(function() {
                     $scope.refreshTrue = true;
                 }, 30000);
-
-                $scope.authObj.$onAuth(function(authData) {
-                    if (authData) {
-                        console.log("App Logged in as:", authData.uid);
-                    } else {
-                        console.log("App Logged out");
-                    }
-                });
 
                 if ($scope.isAndroidApp) {
                     var androidLoc = Android.getUserLocation();

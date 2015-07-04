@@ -19,10 +19,15 @@
                 destination: destination,
                 travelMode: map.Directions.getTravelMode(),
                 provideRouteAlternatives: map.Directions.getRouteAlternatives(),
-                unitSystem: map.Directions.getUnitSystem()
+                unitSystem: map.Directions.getUnitSystem(),
+                optimizeWaypoints: true,
+                durationInTraffic: true,
+                avoidTolls: false,
+                avoidHighways: false
             };
 
             map._Details.directionsService.route(request, function(response, status) {
+                console.log(response);
                 if (status == google.maps.DirectionsStatus.OK) {
                     map.clearMarkers();
                     map._Details.directionsDisplay.setMap(map._Details.map);
