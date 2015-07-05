@@ -2,17 +2,34 @@ div(ng-controller="ChanakyaMainCtrl")
   div#map-canvas
 
   div#content-container
+    div#logo
+      img(
+        src=cdnImagePrefix + "/images/taxistop.png"
+      )
+      p {{'TaxiStop'}}
+
+    div#profile
+      a.btn.btn-primary.btn-lg(
+        href="#"
+        style="margin-left: 75px;"
+      )
+        span.network-name {{'LOGIN'}}
+      a.btn.btn-primary.btn-lg(
+        href="#"
+      )
+        span.network-name {{'SIGNUP'}}
+
     div#content(ng-show="serviceRadio == 'now' || serviceRadio == 'later'")
-      img.input-action.src(
-        src=cdnImagePrefix + "/images/close.png" 
+      span.input-action.src(
         ng-show="source && source.lat" 
         ng-click="clearSource()"
       )
-      img.input-action.dest(
-        src=cdnImagePrefix + "/images/close.png" 
+        i.fa.fa-times
+      span.input-action.dest( 
         ng-show="destination && destination.lat" 
         ng-click="clearDestination()"
       )
+        i.fa.fa-times
       img.src-dest(src=cdnImagePrefix + "/images/src-dest.png")
       div#locationField
            input.clearable#searchSource(
@@ -28,38 +45,39 @@ div(ng-controller="ChanakyaMainCtrl")
              ng-focus="typingOn = true"
              ng-blur="typingOn = false"
            )
-    div#cabdetails(ng-show="isShownDetails()" ng-cloak)
-      div#details(ng-show="serviceRadio == 'now'")
-        div.cab-details.mask(ng-show="showMask()")
-          div.loading(ng-show="loading")
-            p.center-align 
-              img(alt="" src=cdnImagePrefix + "/images/loading.gif")
-              span {{ loadingMsg }}
-          div.info(ng-hide="loading")
-            p.center-align.mask-image
-              img(alt="!" src="https://cdn4.iconfinder.com/data/icons/miu/22/circle_info_more-information_detail-32.png")
-            p.center-align No cabs available from {{cabs.selected}}
-        div.cab-details(
-          ng-repeat='cab in cabs.estimate | filter:showFilter | orderBy:sortNowList'
-          ng-class='{all: "all" == cabs.selected.toLowerCase()}'
-          ng-click='openApp(cab.type)'
-          ng-hide="loading"
-        )
-          img.cab-image(ng-src="{{ getCabImg(cab.name) }}")
-          img.cab-type-image(ng-src="{{ getCabTypeImg(cab.type) }}")
-          button.btn.btn-sm.btn-default.btn-circle.pull-right(style="margin-left:5px") Book
-          p.pull-right(ng-bind-html='getTravelCost(cab)')
-          p.cab-name {{cab.name}}
-          p.cab-desc.pull-right {{ getTravelTime(cab) }}
-          p.cab-desc {{ getArrivalTime(cab) }}
-      div#later.full-page.show-inputs(ng-show="serviceRadio == 'later'")
-        span {{ 'Later cabs' }}
-      div(style='height:5px')
-      div#services(style="display: flex;")
-        div(class="btn-group" style="flex: 1;display: flex;padding: 0 10px;")
-          label(class="btn btn-primary btn-circle" ng-model="serviceRadio" btn-radio="'now'" uncheckable="" style="flex: 1;") Now
-          label(class="btn btn-primary btn-circle" ng-model="serviceRadio" btn-radio="'later'" uncheckable="" style="flex: 1;") Later
-      div#types
+
+    div#cab-container
+      div#cabdetails(ng-show="isShownDetails()" ng-cloak)
+        div#services(style="display: flex;")
+          div(class="btn-group" style="flex: 1;display: flex;padding: 0 10px;")
+            label(class="btn btn-primary btn-circle" ng-model="serviceRadio" btn-radio="'now'" uncheckable="" style="flex: 1;") Now
+            label(class="btn btn-primary btn-circle" ng-model="serviceRadio" btn-radio="'later'" uncheckable="" style="flex: 1;") Later
+        div#details(ng-show="serviceRadio == 'now'")
+          div.cab-details.mask(ng-show="showMask()")
+            div.loading(ng-show="loading")
+              p.center-align 
+                img(alt="" src=cdnImagePrefix + "/images/loading.gif")
+                span {{ loadingMsg }}
+            div.info(ng-hide="loading")
+              p.center-align.mask-image
+                img(alt="!" src="https://cdn4.iconfinder.com/data/icons/miu/22/circle_info_more-information_detail-32.png")
+              p.center-align No cabs available from {{cabs.selected}}
+          div.cab-details(
+            ng-repeat='cab in cabs.estimate | filter:showFilter | orderBy:sortNowList'
+            ng-class='{all: "all" == cabs.selected.toLowerCase()}'
+            ng-click='openApp(cab.type)'
+            ng-hide="loading"
+          )
+            img.cab-image(ng-src="{{ getCabImg(cab.name) }}")
+            img.cab-type-image(ng-src="{{ getCabTypeImg(cab.type) }}")
+            button.btn.btn-sm.btn-default.btn-circle.pull-right(style="margin-left:5px") Book
+            p.pull-right(ng-bind-html='getTravelCost(cab)')
+            p.cab-name {{cab.name}}
+            p.cab-desc.pull-right {{ getTravelTime(cab) }}
+            p.cab-desc {{ getArrivalTime(cab) }}
+        div#later.full-page.show-inputs(ng-show="serviceRadio == 'later'")
+          p(style="text-align:center; width: 100%; font-size: 16px") {{ 'Coming Soon...' }}
+        div#types
 
   div#gps(ng-cloak)
     i.fa.fa-crosshairs(ng-click="setSourceUserLocation()")

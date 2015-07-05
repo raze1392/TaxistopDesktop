@@ -268,6 +268,7 @@
             $scope.refreshTrue = false;
             $scope.selectService = function(service, hard) {
                 if ($scope.refreshTrue) {
+                    console.log($scope.refreshTrue);
                     $scope.refreshTrue = false;
                     $scope.getService(service, true);
                 }
@@ -307,6 +308,9 @@
                 if (!silent) $scope.selectService(service, true);
                 setMapHeight(($scope.availableTypes[$scope.cabs.selected] > 5 ? 5 : $scope.availableTypes[$scope.cabs.selected]) * 43 - 20);
                 //setMapHeight(0);
+                if (!$scope.isMobile) {
+                    setResponseDivHeight();
+                }
             }
 
             function setMapHeight(lessHeight) {
@@ -354,7 +358,8 @@
 
                 $interval(function() {
                     $scope.refreshTrue = true;
-                }, 30000);
+                    $scope.selectService($scope.cabs.selected, true);
+                }, 15000);
 
                 if ($scope.isAndroidApp) {
                     var androidLoc = Android.getUserLocation();
@@ -539,6 +544,16 @@
                         }
                     }
                 }
+            }
+
+            function setResponseDivHeight() {
+                var outer_container = document.getElementById('content-container').clientHeight;
+                var profile_container = document.getElementById('profile').clientHeight;
+                var logo_container = document.getElementById('logo').clientHeight;
+                var content_container = document.getElementById('content').clientHeight;
+                var services_container = document.getElementById('services').clientHeight;
+
+                document.getElementById('details').style.height = (outer_container - (profile_container + logo_container + content_container + services_container)) + 'px';
             }
 
             $scope.init();
