@@ -43,7 +43,7 @@
 
     app.controller('ChanakyaMainCtrl', ['$scope', '$rootScope', '$http', '$interval', '$location', "$firebaseAuth",
         function($scope, $rootScope, $http, $interval, $location, $firebaseAuth) {
-            var URL_HOST = "http://52.10.230.186/";
+            var URL_HOST = "";
 
             $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
                 if (toState.data && toState.data.selectedTab)

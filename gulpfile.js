@@ -2,7 +2,8 @@ var gulp = require('gulp'),
     jshint = require('gulp-jshint'),
     uglify = require('gulp-uglify'),
     concat = require('gulp-concat'),
-    minifyCSS = require('gulp-minify-css');;
+    minifyCSS = require('gulp-minify-css'),
+    concatCss = require('gulp-concat-css');
 
 gulp.task('build', ['css', 'js']);
 
@@ -23,8 +24,14 @@ gulp.task('js', function () {
       .pipe(gulp.dest('./public/build/'));
 });
 
+var styleOrder = [
+    'public/stylesheets/style.css',
+    'public/stylesheets/style-desktop.css',
+    'public/stylesheets/style-mobile.css'
+];
 gulp.task('css', function() {
-  gulp.src('public/stylesheets/*.css')
+  gulp.src(styleOrder)
+    .pipe(concatCss("styles.css"))
     .pipe(minifyCSS({keepBreaks:true}))
     .pipe(gulp.dest('./public/build/'))
 });
