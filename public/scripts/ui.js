@@ -56,6 +56,11 @@
                     $location.path('/app/' + newValue);
                 }
             });
+            $scope.selectRadio = function(option) {
+                if ($scope.serviceRadio != option) {
+                    $scope.serviceRadio = option;
+                }
+            };
 
             $scope.optionList = [{
                 id: 'about',

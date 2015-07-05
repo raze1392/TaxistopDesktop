@@ -50,8 +50,8 @@ div(ng-controller="ChanakyaMainCtrl")
       div#cabdetails(ng-show="isShownDetails()" ng-cloak)
         div#services(style="display: flex;")
           div(class="btn-group" style="flex: 1;display: flex;padding: 0 10px;")
-            label(class="btn btn-primary btn-circle" ng-model="serviceRadio" btn-radio="'now'" uncheckable="" style="flex: 1;") Now
-            label(class="btn btn-primary btn-circle" ng-model="serviceRadio" btn-radio="'later'" uncheckable="" style="flex: 1;") Later
+            label(class="btn btn-primary btn-circle" ng-click="selectRadio('now')" ng-class="{active: serviceRadio == 'now'}" style="flex: 1;") Now
+            label(class="btn btn-primary btn-circle" ng-click="selectRadio('later')" ng-class="{active: serviceRadio == 'later'}" style="flex: 1;") Later
         div#details(ng-show="serviceRadio == 'now'")
           div.cab-details.mask(ng-show="showMask()")
             div.loading(ng-show="loading")
