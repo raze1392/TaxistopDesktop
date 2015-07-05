@@ -34,7 +34,7 @@
                     console.error(err);
                 }
             });
-        }
+        };
 
         var ratesFailed = 0;
         var setRatesAuth = function(hash, info) {
