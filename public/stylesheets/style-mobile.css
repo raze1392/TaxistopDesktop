@@ -7,6 +7,12 @@
         width: 100%;
         top: 75px;
     }
+    #logo {
+        display: none;
+    }
+    #profile {
+        display:none;
+    }
     #title {
         top: 95px;
         right: 24px;

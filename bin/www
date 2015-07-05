@@ -2,7 +2,7 @@
 var debug = require('debug')('TaxiStop');
 var app = require('../app');
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 3200);
 
 // var options = {
 //   key: fs.readFileSync('./server.key'),
