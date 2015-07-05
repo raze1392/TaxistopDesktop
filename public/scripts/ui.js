@@ -330,7 +330,7 @@
             };
 
             $scope.getCabs = function(service, silent) {
-                $http.get(URL_HOST + 'cabs/now/all?lat=' + $scope.source.lat + '&lng=' + $scope.source.lng).success(function(data) {
+                $http.get(URL_HOST + 'api/v1/cabs/now/all?lat=' + $scope.source.lat + '&lng=' + $scope.source.lng).success(function(data) {
                     processData(service, data, silent);
                 });
             };
@@ -417,6 +417,10 @@
                         });
                     }
                 }
+            };
+
+            $scope.showBookingMessage = function() {
+                
             };
 
             function setSource(location) {
@@ -509,7 +513,7 @@
                         UberBLACK: 1
                     }
                 };
-                $http.get(URL_HOST + 'cabs/uber/cost?srcLat=' + $scope.source.lat + '&srcLng=' + $scope.source.lng + '&destLat=' + $scope.destination.lat + '&destLng=' + $scope.destination.lng).success(function(data) {
+                $http.get(URL_HOST + 'api/v1/cabs/uber/cost?srcLat=' + $scope.source.lat + '&srcLng=' + $scope.source.lng + '&destLat=' + $scope.destination.lat + '&destLng=' + $scope.destination.lng).success(function(data) {
                     for (var item in data.prices) {
                         if (data.prices[item].low_estimate == data.prices[item].high_estimate)
                             $scope.uberCost[data.prices[item].name] = data.prices[item].low_estimate;

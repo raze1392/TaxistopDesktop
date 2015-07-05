@@ -89,11 +89,22 @@
 	}
 	#details {
 	}
+	#details .book-btn {
+		display: none;
+	}
 	#services {
 	}
 	.full-page {
 	    bottom: 70px;
 	    width: 330px;
 	    display: flex;
+	}
+	#gps {
+	    left: 350px;
+	    top: 70px;
+	}
+	#refresh {
+	    left: 350px;
+	    top: 20px;
 	}
 }

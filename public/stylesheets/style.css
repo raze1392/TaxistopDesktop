@@ -610,8 +610,6 @@ table {
 }
 #gps {
     position: absolute;
-    right: 30px;
-    bottom: 30px;
     padding: 2px 2px 2px 6px;
     background: #efefef;
     border-radius: 50%;
@@ -624,8 +622,6 @@ table {
 }
 #refresh {
     position: absolute;
-    right: 30px;
-    bottom: 85px;
     padding: 2px 2px 2px 6px;
     background: #efefef;
     border-radius: 50%;
