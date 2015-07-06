@@ -6,20 +6,10 @@
         $urlRouterProvider.when("/app", "/app/now");
 
         $stateProvider
-            .state('login', {
-                url: "/login",
-                templateUrl: "login.html"
-            })
             .state('app', {
                 url: "/app",
                 templateUrl: "content.html",
                 abstract: true
-            })
-            .state('app.profile', {
-                url: "/profile",
-                data: {
-                    selectedTab: 'profile'
-                }
             })
             .state('app.now', {
                 url: "/now",
@@ -33,12 +23,24 @@
                     selectedTab: 'later'
                 }
             })
-            .state('app.options', {
-                url: "/options",
+            .state('app.login', {
+                url: "/login",
                 data: {
-                    selectedTab: 'options'
+                    selectedTab: 'login'
                 }
-            });
+            })
+            .state('app.signup', {
+                url: "/signup",
+                data: {
+                    selectedTab: 'signup'
+                }
+            })
+            .state('app.profiledetails', {
+                url: "/profile",
+                data: {
+                    selectedTab: 'profiledetails'
+                }
+            })
     }]);
 
     app.controller('ChanakyaMainCtrl', ['$scope', '$rootScope', '$http', '$interval', '$location', "$firebaseAuth",
@@ -61,6 +63,8 @@
                     $scope.serviceRadio = option;
                 }
             };
+
+            $scope.userSignedIn = false;
 
             $scope.optionList = [{
                 id: 'about',
@@ -427,6 +431,11 @@
             $scope.showBookingMessage = function() {
                 
             };
+
+            $scope.loginUser = function() {
+                var username = $scope.username;
+                var password = $scope.password;
+            }
 
             function setSource(location) {
                 $scope.newSource = location;

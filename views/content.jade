@@ -9,15 +9,16 @@ div(ng-controller="ChanakyaMainCtrl")
       p {{'TaxiStop'}}
 
     div#profile
-      a.btn.btn-primary.btn-lg(
-        href="#"
-        style="margin-left: 75px;"
-      )
-        span.network-name {{'LOGIN'}}
-      a.btn.btn-primary.btn-lg(
-        href="#"
-      )
-        span.network-name {{'SIGNUP'}}
+      div#pd-meta(ng-hide="userSignedIn")
+        a.btn.btn-primary.btn-lg(
+          style="margin-left: 75px;"
+          ng-click="selectRadio('login')"
+        )
+          span.network-name {{'LOGIN'}}
+        a.btn.btn-primary.btn-lg(
+          ng-click="selectRadio('signup')"
+        )
+          span.network-name {{'SIGNUP'}}
 
     div#content(ng-show="serviceRadio == 'now' || serviceRadio == 'later'")
       span.input-action.src(
@@ -48,10 +49,11 @@ div(ng-controller="ChanakyaMainCtrl")
 
     div#cab-container
       div#cabdetails(ng-show="isShownDetails()" ng-cloak)
-        div#services(style="display: flex;")
+        div#services(style="display: flex;" ng-show="serviceRadio == 'now' || serviceRadio == 'later'")
           div(class="btn-group" style="flex: 1;display: flex;padding: 0 10px;")
             label(class="btn btn-primary btn-circle" ng-click="selectRadio('now')" ng-class="{active: serviceRadio == 'now'}" style="flex: 1;") Now
             label(class="btn btn-primary btn-circle" ng-click="selectRadio('later')" ng-class="{active: serviceRadio == 'later'}" style="flex: 1;") Later
+
         div#details(ng-show="serviceRadio == 'now'")
           div.cab-details.mask(ng-show="showMask()")
             div.loading(ng-show="loading")
@@ -75,8 +77,23 @@ div(ng-controller="ChanakyaMainCtrl")
             p.cab-name {{cab.name}}
             p.cab-desc.pull-right {{ getTravelTime(cab) }}
             p.cab-desc {{ getArrivalTime(cab) }}
+
         div#later.full-page.show-inputs(ng-show="serviceRadio == 'later'")
           p(style="text-align:center; width: 100%; font-size: 16px") {{ 'Coming Soon...' }}
+
+        div#login.full-page.show-inputs(ng-show="serviceRadio == 'login'")
+          form.contentform
+            input(type='text', placeholder='Username' ng-model="username")
+            input(type='password', placeholder='Password' ng-model="password")
+            button#login-button(type='submit' ng-click="loginUser()") Login
+            button#cancel-login-button(type='submit' ng-click="serviceRadio = 'now'") Cancel
+
+        div#signup.full-page.show-inputs(ng-show="serviceRadio == 'signup'")
+          p(style="text-align:center; width: 100%; font-size: 16px") {{ 'Coming Soon...' }}
+
+        div#profiledetails.full-page.show-inputs(ng-show="serviceRadio == 'details'")
+          p(style="text-align:center; width: 100%; font-size: 16px") {{ 'Coming Soon...' }}
+
         div#types
 
   div#gps(ng-cloak)

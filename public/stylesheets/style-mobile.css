@@ -13,6 +13,15 @@
     #profile {
         display:none;
     }
+    #login {
+        display: none;
+    }
+    #signup {
+        display: none;
+    }
+    #profiledetails {
+        display: none;
+    }
     #title {
         top: 95px;
         right: 24px;
