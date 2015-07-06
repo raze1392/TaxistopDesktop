@@ -44,8 +44,22 @@
 
         var validateEmail = function(email) {
             var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            return re.test(email);
+            return email && re.test(email) && (email.length >0);
         };
+
+        var validatePassword = function(password) {
+            return password && password.length > 6;
+        }
+
+        var validateName = function(name) {
+            var fnNameRegex = /^[a-zA-Z]+$/;
+            return name && fnNameRegex.test(name) && (name.length >0);
+        }
+
+        var validateMobile = function(number) {
+            var fnNameRegex = /^[\d]+$/;
+            return number && fnNameRegex.test(number) && (number.length == 10) && (number.length >0);
+        }
 
         var Storage = (function() {
             var store = (typeof(w.Storage) !== "undefined") ? "localStorage" : "cookie";
@@ -144,7 +158,10 @@
             encryptPassword: encryptPassword,
             mobilecheck: mobilecheck,
             androidAppCheck: androidAppCheck,
-            validateEmail: validateEmail
+            validateEmail: validateEmail,
+            validatePassword: validatePassword,
+            validateName: validateName,
+            validateMobile: validateMobile
         };
     }());
 })(window, CryptoJS);

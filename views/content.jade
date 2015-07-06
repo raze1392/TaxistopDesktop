@@ -83,13 +83,27 @@ div(ng-controller="ChanakyaMainCtrl")
 
         div#login.full-page.show-inputs(ng-show="serviceRadio == 'login'")
           form.contentform
-            input(type='text', placeholder='Username' ng-model="username")
+            input(type='text', placeholder='Email' ng-model="email")
             input(type='password', placeholder='Password' ng-model="password")
+            a(href='#', style="text-align: center")
+              p(style="margin-bottom: 20px") Forgot Your Password?
             button#login-button(type='submit' ng-click="loginUser()") Login
             button#cancel-login-button(type='submit' ng-click="serviceRadio = 'now'") Cancel
 
         div#signup.full-page.show-inputs(ng-show="serviceRadio == 'signup'")
-          p(style="text-align:center; width: 100%; font-size: 16px") {{ 'Coming Soon...' }}
+          form.contentform
+            input(type='text', placeholder='First Name' ng-model="firstName")
+            input(type='text', placeholder='Last Name' ng-model="lastName")
+            input(type='text', placeholder='Your Email' ng-model="email")
+            input(type='text', placeholder='Your Phone Number' ng-model="mbNumber")
+            input(type='password', placeholder='Password' ng-model="password")
+            input(type='password', placeholder='Confirm-Password' ng-model="cnfpassword")
+            h3(style='font-size:15px; text-align: center;')
+             | By creating an account, you agree to our 
+             span.term
+             a(href='#') Terms & Conditions
+            button#login-button(type='submit' ng-click="signupUser()") Sign Up
+            button#cancel-login-button(type='submit' ng-click="serviceRadio = 'now'") Cancel
 
         div#profiledetails.full-page.show-inputs(ng-show="serviceRadio == 'details'")
           p(style="text-align:center; width: 100%; font-size: 16px") {{ 'Coming Soon...' }}

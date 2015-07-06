@@ -43,8 +43,8 @@
             })
     }]);
 
-    app.controller('ChanakyaMainCtrl', ['$scope', '$rootScope', '$http', '$interval', '$location', "$firebaseAuth",
-        function($scope, $rootScope, $http, $interval, $location, $firebaseAuth) {
+    app.controller('ChanakyaMainCtrl', ['$scope', '$rootScope', '$q', '$http', '$interval', '$location', "$firebaseAuth",
+        function($scope, $rootScope, $q, $http, $interval, $location, $firebaseAuth) {
             var URL_HOST = "http://52.10.230.186/";
 
             $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
@@ -432,10 +432,82 @@
                 
             };
 
+            //Profile related code starts
             $scope.loginUser = function() {
-                var username = $scope.username;
+                var email = $scope.email;
                 var password = $scope.password;
+                $scope.userSignedIn = false;
+
+                if (!utils.validateEmail(email)) {
+                    handleError("Invalid email");
+                    return false;
+                } else {
+                    var deferred = $q.defer();
+                    $http.jsonp("http://192.168.1.100:3000/users/authenticate?callback=JSON_CALLBACK&email=" + encodeURIComponent(email) + "&password=" + utils.encryptPassword(password))
+                        .success(function (data) {
+                            if (data.error) {
+                                deferred.reject(data.message);
+                            } else {
+                                localStorage.setItem('taxistop:login:session', data);
+                                deferred.resolve(data);
+                            }
+                        }).error(function (a, status) {
+                            deferred.reject("Login Failed!", status);
+                        });
+                    return deferred.promise;
+                }
             }
+
+            $scope.signupUser = function() {
+                var firstName = $scope.firstName;
+                var lastName = $scope.lastName;
+                var emailId = $scope.email;
+                var mbNumber = $scope.mbNumber;
+                var password = $scope.password;
+                var cnfpassword = $scope.cnfpassword;
+                if (!utils.validateName(firstName)){
+                    handleError("Please use a valid First name");
+                    return false;
+                }
+                else if (!utils.validateName(lastName)) {
+                    handleError("Please use a valid Last name");
+                    return false;
+                }else if (!utils.validateEmail(emailId)) {
+                    handleError("Please use a valid Email Address");
+                    return false;
+                }else if (!utils.validateMobile(mbNumber)) {
+                    handleError("Please use a valid Mobile Number");
+                    return false;
+                }else if (!utils.validateMobile(mbNumber)) {
+                    handleError("Please use a valid Mobile Number");
+                    return false;
+                } else if (!password || !utils.validatePassword(password) || !cnfpassword || password != cnfpassword) {
+                    handleError("Please fix the errorr in your password");
+                    return false;
+                }
+                 else {
+                    var deferred = $q.defer();
+                    $http.jsonp("http://192.168.1.100:3000/users/authenticate?callback=JSON_CALLBACK&email=")
+                        .success(function (data) {
+                            if (data.error) {
+                                deferred.reject(data.message);
+                            } else {
+                                localStorage.setItem('taxistop:login:session', data);
+                                deferred.resolve(data);
+                            }
+                        }).error(function (a, status) {
+                            deferred.reject("Sign Up Failed!", status);
+                        });
+                    return deferred.promise;
+                }
+            }
+
+            function handleError(err) {
+                $scope.userSignedIn = false;
+                alert(err);
+            }
+
+            //Profile related code ending
 
             function setSource(location) {
                 $scope.newSource = location;
