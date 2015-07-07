@@ -45,7 +45,8 @@
 
     app.controller('ChanakyaMainCtrl', ['$scope', '$rootScope', '$q', '$http', '$interval', '$location', "$firebaseAuth",
         function($scope, $rootScope, $q, $http, $interval, $location, $firebaseAuth) {
-            var URL_HOST = "http://52.10.230.186/";
+            //var URL_HOST = "http://52.10.230.186/";
+            var URL_HOST = "";
 
             $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
                 if (toState.data && toState.data.selectedTab)
@@ -59,7 +60,11 @@
                 }
             });
             $scope.selectRadio = function(option) {
-                if ($scope.serviceRadio != option) {
+                clearError();
+
+                if ($scope.userSignedIn && (option == "login" || option == "signup")) {
+                    return;
+                } else if ($scope.serviceRadio != option) {
                     $scope.serviceRadio = option;
                 }
             };
@@ -272,7 +277,7 @@
                     all: 0
                 };
                 mapNearByCabs();
-            }
+            };
 
             $scope.refreshTrue = false;
             $scope.selectService = function(service, hard) {
@@ -320,7 +325,7 @@
                 if (!$scope.isMobile) {
                     setResponseDivHeight();
                 }
-            }
+            };
 
             function setMapHeight(lessHeight) {
                 if (!$scope.isMobile)
@@ -332,7 +337,7 @@
 
                 if (map.existsSource() && map.existsDestination()) return;
                 map.getMap().setCenter(map.getSource().location);
-            }
+            };
 
             $scope.showMask = function() {
                 return $scope.loading || $scope.availableTypes[$scope.cabs.selected] === 0;
@@ -434,77 +439,134 @@
 
             //Profile related code starts
             $scope.loginUser = function() {
+                clearError();
+
                 var email = $scope.email;
                 var password = $scope.password;
-                $scope.userSignedIn = false;
-
+                
                 if (!utils.validateEmail(email)) {
                     handleError("Invalid email");
                     return false;
-                } else {
-                    var deferred = $q.defer();
-                    $http.jsonp("http://192.168.1.100:3000/users/authenticate?callback=JSON_CALLBACK&email=" + encodeURIComponent(email) + "&password=" + utils.encryptPassword(password))
-                        .success(function (data) {
-                            if (data.error) {
-                                deferred.reject(data.message);
-                            } else {
-                                localStorage.setItem('taxistop:login:session', data);
-                                deferred.resolve(data);
-                            }
-                        }).error(function (a, status) {
-                            deferred.reject("Login Failed!", status);
-                        });
-                    return deferred.promise;
+                } else if (!password || password == "") {
+                    handleError("Please enter a password");
+                    return false;
+                }else {
+                    login(email, password).then(function(data) {
+                        $scope.userSignedIn = true;
+                        $scope.user = data;
+                        console.log(user);
+                        $scope.selectRadio("now");
+                    }).catch(function(err){
+                        handleError(err);
+                    });
                 }
-            }
+            };
+
+            function login(email, password) {
+                var deferred = $q.defer();
+                $http.get(URL_HOST + "api/v1/users/authenticate?email=" + encodeURIComponent(email) + "&password=" + utils.encryptPassword(password))
+                    .success(function (data) {
+                        if (data.error) {
+                            deferred.reject(data.message);
+                        } else {
+                            localStorage.setItem('taxistop:login:session', data);
+                            deferred.resolve(data);
+                        }
+                    }).error(function (a, status) {
+                        deferred.reject("Login Failed!");
+                    });
+                return deferred.promise;
+            };
 
             $scope.signupUser = function() {
-                var firstName = $scope.firstName;
-                var lastName = $scope.lastName;
-                var emailId = $scope.email;
+                clearError();
+
+                var name = $scope.name;
+                var email = $scope.email;
                 var mbNumber = $scope.mbNumber;
                 var password = $scope.password;
                 var cnfpassword = $scope.cnfpassword;
-                if (!utils.validateName(firstName)){
-                    handleError("Please use a valid First name");
+                if (!utils.validateName(name)){
+                    handleError("Your name have digits. Amazing!");
                     return false;
-                }
-                else if (!utils.validateName(lastName)) {
-                    handleError("Please use a valid Last name");
-                    return false;
-                }else if (!utils.validateEmail(emailId)) {
+                } else if (!utils.validateEmail(email)) {
                     handleError("Please use a valid Email Address");
                     return false;
-                }else if (!utils.validateMobile(mbNumber)) {
+                } else if (!utils.validateMobile(mbNumber)) {
                     handleError("Please use a valid Mobile Number");
                     return false;
-                }else if (!utils.validateMobile(mbNumber)) {
-                    handleError("Please use a valid Mobile Number");
+                } else if (!password || !utils.validatePassword(password) || !cnfpassword) {
+                    handleError("Password should be of minimum 7 characters");
                     return false;
-                } else if (!password || !utils.validatePassword(password) || !cnfpassword || password != cnfpassword) {
-                    handleError("Please fix the errorr in your password");
+                } else if (password != cnfpassword) {
+                    handleError("Passwords do not match");
                     return false;
+                } else {
+                    signup(name, email, mbNumber, password).then(function(data) {
+                        $scope.userSignedIn = true;
+                        $scope.user = data;
+                        $scope.selectRadio("now");
+                    }).catch(function(err){
+                        handleError(err);
+                    });
                 }
-                 else {
-                    var deferred = $q.defer();
-                    $http.jsonp("http://192.168.1.100:3000/users/authenticate?callback=JSON_CALLBACK&email=")
-                        .success(function (data) {
-                            if (data.error) {
-                                deferred.reject(data.message);
-                            } else {
-                                localStorage.setItem('taxistop:login:session', data);
-                                deferred.resolve(data);
-                            }
-                        }).error(function (a, status) {
-                            deferred.reject("Sign Up Failed!", status);
-                        });
-                    return deferred.promise;
-                }
+            };
+
+            function signup(name, email, mbNumber, password) {
+                var deferred = $q.defer();
+                $http.get(URL_HOST + "api/v1/users/signup?email="+email+"&password="+utils.encryptPassword(password)+"&phone="+mbNumber+"&name="+name)
+                    .success(function (data) {
+                        if (data.error) {
+                            deferred.reject(data.message);
+                        } else {
+                            localStorage.setItem('taxistop:login:session', data);
+                            deferred.resolve(data);
+                        }
+                    }).error(function (a, status) {
+                        deferred.reject("Sign Up Failed!");
+                    });
+                return deferred.promise;
+            };
+
+            $scope.logoutUser = function() {
+                clearError();
+
+                logout().then(function(data) {
+                    $scope.userSignedIn = false;
+                    $scope.user = {};
+                    $scope.selectRadio("now");
+                }).catch(function(err){
+                    handleError(err);
+                });
+            }
+
+            function logout() {
+                var deferred = $q.defer();
+                $http.get(URL_HOST + "api/v1/users/logout")
+                    .success(function (data) {
+                        if (data.error) {
+                            deferred.reject(data.message);
+                        } else {
+                            localStorage.removeItem('taxistop:login:session');
+                            deferred.resolve(data);
+                        }
+                    }).error(function (a, status) {
+                        deferred.reject("Sign Up Failed!");
+                    });
+                return deferred.promise;
             }
 
             function handleError(err) {
                 $scope.userSignedIn = false;
-                alert(err);
+                $scope.error = {}
+                $scope.error.msg = err;
+                $scope.error.show = true;
+            }
+
+            function clearError() {
+                $scope.error = {};
+                $scope.error.msg = "";
+                $scope.error.show = false;
             }
 
             //Profile related code ending
@@ -524,13 +586,13 @@
                     avoidHighways: false,
                     avoidTolls: false,
                 }, setSourceCallback);
-            }
+            };
 
             function setSourceCallback(response, status) {
                 if (response.rows[0].elements[0].distance.value > 50 && $scope.newSource.latitude) {
                     map.setSource(map.convertLatLngToLocation($scope.newSource.latitude, $scope.newSource.longitude));
                 }
-            }
+            };
 
             w.addEventListener('userInfoChanged', function(info) {
                 console.log('setting info');
@@ -573,7 +635,7 @@
                     avoidHighways: false,
                     avoidTolls: false,
                 }, setDistanceCallback);
-            }
+            };
 
             $scope.travelTime = 0;
             $scope.travelDistance = 0;
@@ -587,7 +649,7 @@
                 } else {
                     $scope.travelInfoLoadFailed = true;
                 }
-            }
+            };
 
             function getUberCost() {
                 if (!$scope.destination || !$scope.destination.lat) return;
@@ -608,7 +670,7 @@
                         $scope.uberCost.multipliers[data.prices[item].name] = data.prices[item].multiplier;
                     }
                 });
-            }
+            };
 
             function mapNearByCabs() {
                 map.clearMarkers('cabs');
@@ -620,7 +682,7 @@
                     showNearByCabs($scope.cabs.coordinates[_u($scope.services[i].name)], $scope.services[i].name, true);
                 }
 
-            }
+            };
 
             function showNearByCabs(cabs, service, persist) {
                 if (!persist) map.clearMarkers('cabs');
@@ -634,7 +696,7 @@
                         }
                     }
                 }
-            }
+            };
 
             function setResponseDivHeight() {
                 var outer_container = document.getElementById('content-container').clientHeight;
@@ -644,7 +706,7 @@
                 var services_container = document.getElementById('services').clientHeight;
 
                 document.getElementById('details').style.height = (outer_container - (profile_container + logo_container + content_container + services_container)) + 'px';
-            }
+            };
 
             $scope.init();
         }

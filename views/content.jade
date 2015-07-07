@@ -19,6 +19,20 @@ div(ng-controller="ChanakyaMainCtrl")
           ng-click="selectRadio('signup')"
         )
           span.network-name {{'SIGNUP'}}
+      div#pd-login(ng-show="userSignedIn")
+        a.btn.btn-primary.btn-lg(
+          style="margin-left: 40px;"
+          ng-click="selectRadio('profiledetails')"
+        )
+          span.network-name {{'Profile'}}
+        a.btn.btn-primary.btn-lg(
+          ng-click="selectRadio('now')"
+        )
+          span.network-name {{'Now'}}
+        a.btn.btn-primary.btn-lg(
+          ng-click="logoutUser()"
+        )
+          span.network-name {{'Logout'}}
 
     div#content(ng-show="serviceRadio == 'now' || serviceRadio == 'later'")
       span.input-action.src(
@@ -83,6 +97,7 @@ div(ng-controller="ChanakyaMainCtrl")
 
         div#login.full-page.show-inputs(ng-show="serviceRadio == 'login'")
           form.contentform
+            p.error(ng-show="error.show") {{error.msg}}
             input(type='text', placeholder='Email' ng-model="email")
             input(type='password', placeholder='Password' ng-model="password")
             a(href='#', style="text-align: center")
@@ -92,8 +107,8 @@ div(ng-controller="ChanakyaMainCtrl")
 
         div#signup.full-page.show-inputs(ng-show="serviceRadio == 'signup'")
           form.contentform
-            input(type='text', placeholder='First Name' ng-model="firstName")
-            input(type='text', placeholder='Last Name' ng-model="lastName")
+            p.error(ng-show="error.show") {{error.msg}}
+            input(type='text', placeholder='First Name' ng-model="name")
             input(type='text', placeholder='Your Email' ng-model="email")
             input(type='text', placeholder='Your Phone Number' ng-model="mbNumber")
             input(type='password', placeholder='Password' ng-model="password")

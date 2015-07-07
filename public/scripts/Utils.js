@@ -52,7 +52,7 @@
         }
 
         var validateName = function(name) {
-            var fnNameRegex = /^[a-zA-Z]+$/;
+            var fnNameRegex = /^[a-zA-Z\s]+$/;
             return name && fnNameRegex.test(name) && (name.length >0);
         }
 
