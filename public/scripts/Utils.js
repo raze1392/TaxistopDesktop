@@ -49,17 +49,17 @@
 
         var validatePassword = function(password) {
             return password && password.length > 6;
-        }
+        };
 
         var validateName = function(name) {
             var fnNameRegex = /^[a-zA-Z\s]+$/;
             return name && fnNameRegex.test(name) && (name.length >0);
-        }
+        };
 
         var validateMobile = function(number) {
             var fnNameRegex = /^[\d]+$/;
             return number && fnNameRegex.test(number) && (number.length == 10) && (number.length >0);
-        }
+        };
 
         var Storage = (function() {
             var store = (typeof(w.Storage) !== "undefined") ? "localStorage" : "cookie";

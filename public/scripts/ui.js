@@ -40,7 +40,7 @@
                 data: {
                     selectedTab: 'profiledetails'
                 }
-            })
+            });
     }]);
 
     app.controller('ChanakyaMainCtrl', ['$scope', '$rootScope', '$q', '$http', '$interval', '$location', "$firebaseAuth",
@@ -277,7 +277,7 @@
                     all: 0
                 };
                 mapNearByCabs();
-            };
+            }
 
             $scope.refreshTrue = false;
             $scope.selectService = function(service, hard) {
@@ -325,7 +325,7 @@
                 if (!$scope.isMobile) {
                     setResponseDivHeight();
                 }
-            };
+            }
 
             function setMapHeight(lessHeight) {
                 if (!$scope.isMobile)
@@ -337,7 +337,7 @@
 
                 if (map.existsSource() && map.existsDestination()) return;
                 map.getMap().setCenter(map.getSource().location);
-            };
+            }
 
             $scope.showMask = function() {
                 return $scope.loading || $scope.availableTypes[$scope.cabs.selected] === 0;
@@ -447,7 +447,7 @@
                 if (!utils.validateEmail(email)) {
                     handleError("Invalid email");
                     return false;
-                } else if (!password || password == "") {
+                } else if (!password || password === "") {
                     handleError("Please enter a password");
                     return false;
                 }else {
@@ -476,7 +476,7 @@
                         deferred.reject("Login Failed!");
                     });
                 return deferred.promise;
-            };
+            }
 
             $scope.signupUser = function() {
                 clearError();
@@ -526,7 +526,7 @@
                         deferred.reject("Sign Up Failed!");
                     });
                 return deferred.promise;
-            };
+            }
 
             $scope.logoutUser = function() {
                 clearError();
@@ -538,7 +538,7 @@
                 }).catch(function(err){
                     handleError(err);
                 });
-            }
+            };
 
             function logout() {
                 var deferred = $q.defer();
@@ -558,7 +558,7 @@
 
             function handleError(err) {
                 $scope.userSignedIn = false;
-                $scope.error = {}
+                $scope.error = {};
                 $scope.error.msg = err;
                 $scope.error.show = true;
             }
@@ -586,13 +586,13 @@
                     avoidHighways: false,
                     avoidTolls: false,
                 }, setSourceCallback);
-            };
+            }
 
             function setSourceCallback(response, status) {
                 if (response.rows[0].elements[0].distance.value > 50 && $scope.newSource.latitude) {
                     map.setSource(map.convertLatLngToLocation($scope.newSource.latitude, $scope.newSource.longitude));
                 }
-            };
+            }
 
             w.addEventListener('userInfoChanged', function(info) {
                 console.log('setting info');
@@ -635,7 +635,7 @@
                     avoidHighways: false,
                     avoidTolls: false,
                 }, setDistanceCallback);
-            };
+            }
 
             $scope.travelTime = 0;
             $scope.travelDistance = 0;
@@ -649,7 +649,7 @@
                 } else {
                     $scope.travelInfoLoadFailed = true;
                 }
-            };
+            }
 
             function getUberCost() {
                 if (!$scope.destination || !$scope.destination.lat) return;
@@ -670,7 +670,7 @@
                         $scope.uberCost.multipliers[data.prices[item].name] = data.prices[item].multiplier;
                     }
                 });
-            };
+            }
 
             function mapNearByCabs() {
                 map.clearMarkers('cabs');
@@ -682,7 +682,7 @@
                     showNearByCabs($scope.cabs.coordinates[_u($scope.services[i].name)], $scope.services[i].name, true);
                 }
 
-            };
+            }
 
             function showNearByCabs(cabs, service, persist) {
                 if (!persist) map.clearMarkers('cabs');
@@ -696,7 +696,7 @@
                         }
                     }
                 }
-            };
+            }
 
             function setResponseDivHeight() {
                 var outer_container = document.getElementById('content-container').clientHeight;
@@ -706,7 +706,7 @@
                 var services_container = document.getElementById('services').clientHeight;
 
                 document.getElementById('details').style.height = (outer_container - (profile_container + logo_container + content_container + services_container)) + 'px';
-            };
+            }
 
             $scope.init();
         }
