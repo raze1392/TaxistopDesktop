@@ -178,4 +178,17 @@
 		text-align: center;
 		margin-top: -10px;
 	}
+	form.contentform label.details {
+		display: block;
+		margin-left: 20px;
+		margin-bottom: 5px;
+	}
+	form.contentform p.profileDetails {
+		margin: 0;
+		margin-bottom: 14px;
+		font-size: 18px;
+		margin-left: 20px;
+		border-bottom: 1px solid #ccc;
+		text-align: left;
+	}
 }

@@ -36,7 +36,7 @@
                 }
             })
             .state('app.profiledetails', {
-                url: "/profile",
+                url: "/profiledetails",
                 data: {
                     selectedTab: 'profiledetails'
                 }
@@ -354,6 +354,19 @@
             };
 
             $scope.init = function() {
+                // Login session
+                var session;
+                try {
+                    session = JSON.parse(window.localStorage.getItem('taxistop:login:session'));  
+                } catch (exception) {
+                    // Do nothing
+                }
+                if (session && session.name) {
+                    $scope.userSignedIn = true;
+                    $scope.user = session;
+                }
+
+                $scope.editUserDetail = false;
                 $scope.loaded = true;
                 $scope.isMobile = utils.mobilecheck();
                 $scope.isAndroidApp = utils.androidAppCheck();
@@ -373,7 +386,7 @@
                 $interval(function() {
                     $scope.refreshTrue = true;
                     $scope.selectService($scope.cabs.selected, true);
-                }, 15000);
+                }, 30000);
 
                 if ($scope.isAndroidApp) {
                     var androidLoc = Android.getUserLocation();
@@ -454,7 +467,6 @@
                     login(email, password).then(function(data) {
                         $scope.userSignedIn = true;
                         $scope.user = data;
-                        console.log(user);
                         $scope.selectRadio("now");
                     }).catch(function(err){
                         handleError(err);
@@ -469,7 +481,7 @@
                         if (data.error) {
                             deferred.reject(data.message);
                         } else {
-                            localStorage.setItem('taxistop:login:session', data);
+                            localStorage.setItem('taxistop:login:session', JSON.stringify(data));
                             deferred.resolve(data);
                         }
                     }).error(function (a, status) {
@@ -519,7 +531,7 @@
                         if (data.error) {
                             deferred.reject(data.message);
                         } else {
-                            localStorage.setItem('taxistop:login:session', data);
+                            localStorage.setItem('taxistop:login:session', JSON.stringify(data));
                             deferred.resolve(data);
                         }
                     }).error(function (a, status) {
